@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>To Do List</title>
+</head>
+<body>
+
+        
+
+    <header>
+
+        <!--Se não houver tarefa selecionada, ele renderizará um formulário para criar uma nova tarefa.-->
+        <% if (task == null) { %> 
+            <h1>LISTA DE TAREFAS</h1>
+        <form action="/create" method="post">
+            <input type="text"  name="task" id="task" placeholder="Insira uma tarefa">
+            <button id="addButton" type="submit">Adcionar</button>
+        </form>
+
+        <% } else { %>
+            <h1>EDITAR TAREFA</h1>
+        <form action="/updateOne/<%= task._id %>" method="post">
+            <input type="text"  name="task" id="task" value="<%= task.task %>">
+            <button id="updateButton" type="submit">Atualizar</button>
+        </form>
+        <% } %>
+
+    </header>
+
+    
+    <section id="tasks">
+        <ul>
+            <% tasksList.forEach((task) =>{  %> <!--Para cada elemento da lista de tarefas, o código dentro deste bloco será executado.-->
+                <li>
+                    <p href="/"><%= task.task %>  <span><%= task.date.toLocaleDateString('pt-br') %></span> </p> <!--O método toLocaleDateString('pt-br') é usado para formatar a data no formato brasileiro.--> 
+                    
+                    <div>
+                        <a id="edit" href="/getById/<%= task._id %>/update"><i class="fa-solid fa-pen-to-square"></i></a>  <!--Apontam para rotas que permitem editar tarefas específicas, com base no ID da tarefa.-->
+                        <a id="delete" href="/getById/<%= task._id %>/delete"><i class="fa-solid fa-trash"></i></a>  <!--Apontam para rotas que permitem excluir tarefas específicas, com base no ID da tarefa.-->
+                    </div>              
+                </li>        
+            <% }) %>
+        </ul>
+    </section>
+
+
+    <% if (taskDelete != null) { %> <!--Verifica se a variável taskDelete está definida. Se estiver definida, renderiza um modal de confirmação para excluir uma tarefa.-->
+    <section id="modal">
+
+        <div id="card">
+
+            <!--<a id="fechar" href="/">x</a>-->
+            <hr>
+            <h3>Deseja realmente apagar a tarefa: <%= taskDelete.task %>? </h3>
+            <a href="/">Não</a>
+            <a href="/deleteOne/<%= taskDelete._id %>">Sim</a>
+
+        </div>
+    </section>
+   <% } %>
+    
+    
+     
+
+
+    <script src="script.js"></script>
+</body>
+</html>
