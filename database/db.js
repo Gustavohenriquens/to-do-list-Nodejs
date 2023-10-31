@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = encodeURIComponent(process.env.DB_PASSWORD)
-
+    
 
 const connectToDb = () => {
     //O connect está dentro da bibiotecla mongoose que você baixou.
